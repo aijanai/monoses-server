@@ -19,3 +19,15 @@ RUN ./word2vec || true
 
 WORKDIR /monoses
 RUN conda install pytorch torchvision cpuonly -c pytorch
+
+ENV FLASK_APP=monoses
+EXPOSE 5000
+
+COPY Pipfile .
+COPY Pipfile.lock .
+
+RUN pip install --upgrade pip && pip install pipenv && pipenv install
+
+COPY . .
+
+CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:5000", "--log-level=debug", "apiserver:app"]
