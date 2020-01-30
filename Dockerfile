@@ -43,4 +43,4 @@ RUN pip install --upgrade pip && pip install pipenv && pipenv install
 
 COPY . .
 
-CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:5000", "--log-level=debug", "apiserver:app"]
+CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:5000", "--log-level=info", "--timeout", "120", "apiserver:app"]
