@@ -14,9 +14,9 @@ gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
 
-if os.environ.get("") is None:
+if os.environ.get("MODEL") is None or len(os.environ.get("MODEL").strip()) == 0:
     app.logger.fatal("MODEL env var is not set: can't read model to perform translations")
-    sys.exit(1)
+    sys.exit(4)
 
 @app.route("/translate")
 def translate():
@@ -34,7 +34,7 @@ def translate():
     input_file = temp.name
 
     # compose input params
-    params = {"src": source, "trg": target, "model": os.environ.get("MODEL"), "threads": 20, "reverse": False, "tok": False, "input_file": input_file}
+    params = {"src": source, "trg": target, "model": os.environ.get("MODEL").strip(), "threads": 20, "reverse": False, "tok": False, "input_file": input_file}
 
     try:
         # invoke moses
