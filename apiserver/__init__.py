@@ -18,6 +18,11 @@ if os.environ.get("MODEL") is None or len(os.environ.get("MODEL").strip()) == 0:
     app.logger.fatal("MODEL env var is not set: can't read model to perform translations")
     sys.exit(4)
 
+@app.route("/coffee")
+def coffee():
+    """A joke for service liveness"""
+    return '', 418
+
 @app.route("/translate")
 def translate():
     result = None
